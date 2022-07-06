@@ -1,0 +1,9 @@
+E-commerce App 2022
+===================
+- After upload app on github ==> we will add 2 routes [site - dashboard]
+- add 2 directory in controller directory [ site - dashboard]
+- add packages to app [MCAMARA - astrotomic - yajra ]
+-
+
+
+
