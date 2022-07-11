@@ -1,22 +1,15 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\SettingController;
 use GuzzleHttp\Middleware;
+use Illuminate\Routing\RouteGroup;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-/*
-|--------------------------------------------------------------------------
-| Dashboard  Routes
-|--------------------------------------------------------------------------
-| - Contains all dashboard routes
-| - All Prefix inside RouteServiceProvider.php -> File
-*/
+//use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function () {
-    Route::get('users', function () {
-        return 'in admin page';
-    });
-});
 
 
 /*
@@ -28,15 +21,25 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
 |       - else redirect to user login page
 */
 
-Route::group(['namespace' => 'Admin','middleware' =>'guest:admin'], function () {
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+    ],
+    function () {
+        Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin','prefix' =>'/admin'], function () {
+            Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
+            // Delivers Routes
+            Route::group(['prefix' => 'settings'], function () {
+                Route::get('shipping/{type}', [SettingController::class, 'editShipping'])->name('edit.shipping.Method');
+                Route::put('shipping/{id}', [SettingController::class, 'updateShipping'])->name('update.shipping.Method');
+            });
+        });
 
-    Route::get('login',[LoginController::class,'login'])->name('admin.login');
-    Route::post('login',[LoginController::class,'postLogin'])->name('admin.post.login');
+        Route::group(['namespace' => 'Admin', 'middleware' => 'guest:admin','prefix' =>'/admin'], function () {
 
-});
-
-Route::group(['namespace' => 'Admin','middleware'=>'auth:admin'], function () {
-    Route::get('/',[LoginController::class,'index'])->name('admin.index');
-
-});
-
+            Route::get('login', [LoginController::class, 'login'])->name('admin.login');
+            Route::post('login', [LoginController::class, 'postLogin'])->name('admin.post.login');
+        });
+    }
+);

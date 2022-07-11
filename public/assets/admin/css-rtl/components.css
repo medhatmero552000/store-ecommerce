@@ -287,6 +287,7 @@ footer.footer-dark {
 }
 .main-menu.menu-light .navigation li a span {
   display : inline-block;
+  /* background-color: #ddd; */
 }
 .main-menu.menu-light .navigation li a span.menu-sub-title {
   color : #BDBFC9;
@@ -296,6 +297,7 @@ footer.footer-dark {
 }
 .main-menu.menu-light .navigation > li {
   padding : 0;
+  /* background-color: #394044; */
 }
 .main-menu.menu-light .navigation > li > a {
   padding : 12px 18px 12px 30px;
