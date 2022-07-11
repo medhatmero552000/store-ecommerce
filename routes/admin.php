@@ -29,6 +29,7 @@ Route::group(
     function () {
         Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin','prefix' =>'/admin'], function () {
             Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
+            Route::get('logout', [LoginController::class, 'admin_Logout'])->name('admin.logout');
             // Delivers Routes
             Route::group(['prefix' => 'settings'], function () {
                 Route::get('shipping/{type}', [SettingController::class, 'editShipping'])->name('edit.shipping.Method');

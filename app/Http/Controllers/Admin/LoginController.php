@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
- 
+
 
     public function login()
     {
@@ -26,5 +26,11 @@ class LoginController extends Controller
             return redirect()->route('admin.index');
         }
         return redirect()->back()->with(['error' => 'البريد الإلكترونى أو كلمة المرور غير صحيحة']);
+    }
+
+    public function admin_Logout()
+    {
+        auth('admin')->logout();
+        return redirect()->route('admin.login');
     }
 }
